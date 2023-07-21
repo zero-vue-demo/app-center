@@ -22,6 +22,14 @@ ts:
 	goctl api plugin -plugin goctl-ts ts --api api/platform/client.api --dir ../../frontend/ts/client
 	goctl api plugin -plugin goctl-ts ts --api api/platform/manager.api --dir ../../frontend/ts/manager
 
+.PHONY:sql
+sql:
+	cd db && > mysql.sql && cat mysql/*.sql >> mysql.sql
+
+.PHONY:dao
+dao:
+	cd ../../app/user/db && go run db.go -f ../api/etc/user.yaml
+
 .PHONY:api
 api:
 	goctl api go --api api/platform/api.api --dir ../../app/user/api --style goZero
