@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	api "app/user/api/internal/handler/api"
 	clientpublic "app/user/api/internal/handler/client/public"
 	clientuser "app/user/api/internal/handler/client/user"
 	manageradmin "app/user/api/internal/handler/manager/admin"
@@ -13,6 +14,26 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/",
+				Handler: api.NothingHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/demo/error",
+				Handler: api.DemoErrorHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/doc/swagger",
+				Handler: api.SwaggerDocHandler(serverCtx),
+			},
+		},
+	)
+
 	server.AddRoutes(
 		[]rest.Route{
 			{

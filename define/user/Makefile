@@ -4,6 +4,7 @@ run:
 	@echo "make tidy      |  更新 Golang 依赖"
 	@echo "-----------------------------------------"
 	@echo "make ts        |  生成 TypeScript 脚本"
+	@echo "make doc       |  生成 api 文档"
 	@echo "-----------------------------------------"
 	@echo "make sql       |  合并 sql 文件"
 	@echo "make dao       |  生成 dao 文件"
@@ -19,8 +20,12 @@ tidy:
 
 .PHONY:ts
 ts:
-	goctl api plugin -plugin goctl-ts ts --api api/platform/client.api  --dir ../../frontend/ts/client
-	goctl api plugin -plugin goctl-ts ts --api api/platform/manager.api --dir ../../frontend/ts/manager
+	goctl api plugin -p goctl-ap="ts" --api api/platform/client.api  --dir ../../frontend/ts/client
+	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../frontend/ts/manager
+
+.PHONY:doc
+doc:
+	goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/platform/api.api --dir ../../app/user/api/doc
 
 .PHONY:sql
 sql:
@@ -34,3 +39,11 @@ dao:
 api:
 	goctl api go --api api/platform/api.api --dir ../../app/user/api --style goZero \
 	--remote https://github.com/5-say/go-zero-template --branch custom
+
+.PHONY:api-run
+api-run:
+	cd ../../app/user/api && go run user.go
+
+.PHONY:api-build
+api-build:
+	cd ../../app/user/api && go build user.go
