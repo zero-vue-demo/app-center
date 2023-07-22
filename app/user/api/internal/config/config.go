@@ -1,11 +1,18 @@
 package config
 
-import "github.com/zeromicro/go-zero/rest"
+import (
+	"github.com/5-say/go-tools/tools/db"
+	"github.com/5-say/go-tools/tools/random"
+	"github.com/5-say/zero-services/public/jwtx"
+	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
+)
 
 type Config struct {
 	rest.RestConf
-	Auth struct {
-		AccessSecret string
-		AccessExpire int64
-	}
+	DB           db.Config
+	CorsOrigins  []string
+	Auth         jwtx.JWTXConfig
+	JWTXRpc      zrpc.RpcClientConf
+	SimpleRandom random.SimpleRandomConfig
 }

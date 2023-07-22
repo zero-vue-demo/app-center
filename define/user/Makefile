@@ -19,7 +19,7 @@ tidy:
 
 .PHONY:ts
 ts:
-	goctl api plugin -plugin goctl-ts ts --api api/platform/client.api --dir ../../frontend/ts/client
+	goctl api plugin -plugin goctl-ts ts --api api/platform/client.api  --dir ../../frontend/ts/client
 	goctl api plugin -plugin goctl-ts ts --api api/platform/manager.api --dir ../../frontend/ts/manager
 
 .PHONY:sql
