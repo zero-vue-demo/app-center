@@ -2,6 +2,7 @@ package public
 
 import (
 	"context"
+	"net/http"
 
 	"app/user/api/internal/svc"
 	"app/user/api/internal/types"
@@ -11,14 +12,18 @@ import (
 
 type SignInAccountLogic struct {
 	logx.Logger
+	w      http.ResponseWriter
+	r      *http.Request
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewSignInAccountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SignInAccountLogic {
+func NewSignInAccountLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.Request) *SignInAccountLogic {
 	return &SignInAccountLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		w:      w,
+		r:      r,
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
 	}
 }

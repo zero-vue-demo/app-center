@@ -2,6 +2,7 @@ package public
 
 import (
 	"context"
+	"net/http"
 
 	"app/user/api/internal/svc"
 	"app/user/api/internal/types"
@@ -11,14 +12,18 @@ import (
 
 type SignUpMobileLogic struct {
 	logx.Logger
+	w      http.ResponseWriter
+	r      *http.Request
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewSignUpMobileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SignUpMobileLogic {
+func NewSignUpMobileLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.Request) *SignUpMobileLogic {
 	return &SignUpMobileLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		w:      w,
+		r:      r,
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
 	}
 }

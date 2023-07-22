@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+	"net/http"
 
 	"app/user/api/internal/svc"
 	"app/user/api/internal/types"
@@ -11,14 +12,18 @@ import (
 
 type GetUserListLogic struct {
 	logx.Logger
+	w      http.ResponseWriter
+	r      *http.Request
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserListLogic {
+func NewGetUserListLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.Request) *GetUserListLogic {
 	return &GetUserListLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		w:      w,
+		r:      r,
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
 	}
 }

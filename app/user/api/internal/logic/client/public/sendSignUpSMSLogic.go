@@ -2,6 +2,7 @@ package public
 
 import (
 	"context"
+	"net/http"
 
 	"app/user/api/internal/svc"
 	"app/user/api/internal/types"
@@ -11,14 +12,18 @@ import (
 
 type SendSignUpSMSLogic struct {
 	logx.Logger
+	w      http.ResponseWriter
+	r      *http.Request
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewSendSignUpSMSLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SendSignUpSMSLogic {
+func NewSendSignUpSMSLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.Request) *SendSignUpSMSLogic {
 	return &SendSignUpSMSLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		w:      w,
+		r:      r,
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
 	}
 }
