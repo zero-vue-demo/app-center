@@ -32,4 +32,5 @@ dao:
 
 .PHONY:api
 api:
-	goctl api go --api api/platform/api.api --dir ../../app/user/api --style goZero --remote https://github.com/5-say/go-zero-template --branch custom
+	goctl api go --api api/platform/api.api --dir ../../app/user/api --style goZero \
+	--remote https://github.com/5-say/go-zero-template --branch custom
