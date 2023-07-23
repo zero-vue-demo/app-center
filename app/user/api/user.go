@@ -35,8 +35,13 @@ func main() {
 	// 初始化公共数据库连接
 	dao.SetCommon(c.DB, db.LogWriter())
 
-	// // 注册全局中间件
-	// server.Use()
+	// 注册全局中间件
+	server.Use(func(next http.HandlerFunc) http.HandlerFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
+			ctx := context.WithValue(r.Context(), "c", c)
+			next(w, r.WithContext(ctx))
+		}
+	})
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
