@@ -6,7 +6,7 @@ info(
     group: client/user
     prefix: client/user
     jwt: Auth
-    middleware: RefreshTokenMiddleware
+    middleware: JWTXMiddleware, AuthUserMiddleware
 )
 
 service user {

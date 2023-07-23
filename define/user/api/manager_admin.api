@@ -6,7 +6,7 @@ info(
 	group: manager/admin
 	prefix: manager/admin
 	jwt: Auth
-	middleware: RefreshTokenMiddleware
+	middleware: JWTXMiddleware, AuthAdminMiddleware
 )
 
 service user {

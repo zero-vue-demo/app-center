@@ -2,14 +2,14 @@ package middleware
 
 import "net/http"
 
-type RefreshTokenMiddleware struct {
+type AuthAdminMiddleware struct {
 }
 
-func NewRefreshTokenMiddleware() *RefreshTokenMiddleware {
-	return &RefreshTokenMiddleware{}
+func NewAuthAdminMiddleware() *AuthAdminMiddleware {
+	return &AuthAdminMiddleware{}
 }
 
-func (m *RefreshTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+func (m *AuthAdminMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// TODO generate middleware implement function, delete after code implementation
 
