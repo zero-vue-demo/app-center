@@ -14,35 +14,56 @@ service user {
 		summary: 获取用户列表
 	)
 	@handler getUserList
-	get /users(Request) returns (AdminSelfGetUserListResponse)
+	get /users(Manager_Admin_GetUserList_Request) returns (Manager_Admin_GetUserList_Response)
 
 	@doc(
 		summary: 获取用户详情
 	)
 	@handler getUserInfo
-	get /users/:id(Request) returns (Response)
+	get /users/:id(Manager_Admin_GetUserInfo_Request) returns (Manager_Admin_GetUserInfo_Response)
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 安全退出
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 获取用户列表
 // - 请求
 type (
-	Request struct{}
+    Manager_Admin_GetUserList_Request {
+		Page        *int    `form:"page,optional"`         // 当前页码
+		PerPage     *int    `form:"per_page,optional"`     // 每页条目
+		OrderColumn *string `form:"order_column,optional"` // 排序字段
+		OrderType   *string `form:"order_type,optional"`   // 排序类型，asc、desc
+
+        SearchAccountLike *string `form:"search_account_like,optional"` // 账号
+    }
 )
 // - 响应
 type (
-	Response struct{}
+    Manager_Admin_GetUserList_Response {
+        Total int64                                     `json:"total"`
+        Items []Manager_Admin_GetUserList_Response_Item `json:"items"`
+    }
+    Manager_Admin_GetUserList_Response_Item {
+		ID                  uint64 `json:"id"`             // 用户 ID
+		Name                string `json:"name"`           // 名称
+		Account             string `json:"account"`        // 账号
+		CreatedTimestamp    int64  `json:"created_at"`     // 创建时间
+		LastSigninTimestamp int64  `json:"last_signin_at"` // 上次登录时间
+    }
 )
 
-type AdminSelfGetUserListResponse {
-	List []AdminSelfGetUserListItem `json:"list"`
-}
-
-type AdminSelfGetUserListItem {
-	ID           uint32 `json:"id"`
-	Name         string `json:"name"`
-	Account      string `json:"account"`
-	Password     string `json:"password"`
-	LastSigninAt uint32 `json:"last_signin_at"`
-	CreatedAt    uint32 `json:"created_at"`
-	UpdatedAt    uint32 `json:"updated_at"`
-}
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 获取用户详情
+// - 请求
+type (
+    Manager_Admin_GetUserInfo_Request {
+        ID uint64 `path:"id"` // 用户 ID
+    }
+)
+// - 响应
+type (
+    Manager_Admin_GetUserInfo_Response {
+		ID                  uint64 `json:"id"`             // 用户 ID
+		Name                string `json:"name"`           // 名称
+		Account             string `json:"account"`        // 账号
+		CreatedTimestamp    int64  `json:"created_at"`     // 创建时间
+		LastSigninTimestamp int64  `json:"last_signin_at"` // 上次登录时间
+    }
+)

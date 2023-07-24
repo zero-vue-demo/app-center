@@ -28,7 +28,7 @@ func NewGetUserInfoLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *h
 	}
 }
 
-func (l *GetUserInfoLogic) GetUserInfo(req *types.Request) (resp *types.Response, err error) {
+func (l *GetUserInfoLogic) GetUserInfo(req *types.Manager_Admin_GetUserInfo_Request) (resp *types.Manager_Admin_GetUserInfo_Response, err error) {
 	// todo: add your logic here and delete this line
 
 	return

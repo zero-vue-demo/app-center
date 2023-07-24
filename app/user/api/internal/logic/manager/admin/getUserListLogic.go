@@ -28,7 +28,7 @@ func NewGetUserListLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *h
 	}
 }
 
-func (l *GetUserListLogic) GetUserList(req *types.Request) (resp *types.AdminSelfGetUserListResponse, err error) {
+func (l *GetUserListLogic) GetUserList(req *types.Manager_Admin_GetUserList_Request) (resp *types.Manager_Admin_GetUserList_Response, err error) {
 	// todo: add your logic here and delete this line
 
 	return

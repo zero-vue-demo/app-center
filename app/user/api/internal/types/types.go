@@ -10,24 +10,6 @@ type DemoError_Request struct {
 type DemoError_Response struct {
 }
 
-type GetList_Request struct {
-	Page        *int    `form:"page,optional"`         // 当前页码
-	PerPage     *int    `form:"per_page,optional"`     // 每页条目
-	OrderColumn *string `form:"order_column,optional"` // 排序字段
-	OrderType   *string `form:"order_type,optional"`   // 排序类型，asc、desc
-}
-
-type SendSMS_Request struct {
-	CountryCode string  `json:"country_code"` // 国际区号
-	Mobile      string  `json:"mobile"`       // 手机号码
-	CaptchaCode *string `json:"captcha_code"` // 图形验证码
-}
-
-type SendSMS_Response struct {
-	ExpTimestamp     string `json:"exp_timestamp"`     // 短信验证码有效期时间戳
-	RemainingRetries string `json:"remaining_retries"` // 输入错误剩余重试次数
-}
-
 type Client_Public_GetSignUpCaptcha_Request struct {
 }
 
@@ -61,11 +43,14 @@ type Client_Public_SignUpMobile_Response struct {
 }
 
 type Client_Public_SendSignUpSMS_Request struct {
-	SendSMS_Request
+	CountryCode string  `json:"country_code"` // 国际区号
+	Mobile      string  `json:"mobile"`       // 手机号码
+	CaptchaCode *string `json:"captcha_code"` // 图形验证码
 }
 
 type Client_Public_SendSignUpSMS_Response struct {
-	SendSMS_Response
+	ExpTimestamp     string `json:"exp_timestamp"`     // 短信验证码有效期时间戳
+	RemainingRetries string `json:"remaining_retries"` // 输入错误剩余重试次数
 }
 
 type Client_Public_GetSignInCaptcha_Request struct {
@@ -101,11 +86,14 @@ type Client_Public_SignInMobile_Response struct {
 }
 
 type Client_Public_SendSignInSMS_Request struct {
-	SendSMS_Request
+	CountryCode string  `json:"country_code"` // 国际区号
+	Mobile      string  `json:"mobile"`       // 手机号码
+	CaptchaCode *string `json:"captcha_code"` // 图形验证码
 }
 
 type Client_Public_SendSignInSMS_Response struct {
-	SendSMS_Response
+	ExpTimestamp     string `json:"exp_timestamp"`     // 短信验证码有效期时间戳
+	RemainingRetries string `json:"remaining_retries"` // 输入错误剩余重试次数
 }
 
 type Client_User_SignOut_Request struct {
@@ -122,22 +110,35 @@ type Client_User_EditPassword_Request struct {
 type Client_User_EditPassword_Response struct {
 }
 
-type Request struct {
+type Manager_Admin_GetUserList_Request struct {
+	Page              *int    `form:"page,optional"`                // 当前页码
+	PerPage           *int    `form:"per_page,optional"`            // 每页条目
+	OrderColumn       *string `form:"order_column,optional"`        // 排序字段
+	OrderType         *string `form:"order_type,optional"`          // 排序类型，asc、desc
+	SearchAccountLike *string `form:"search_account_like,optional"` // 账号
 }
 
-type Response struct {
+type Manager_Admin_GetUserList_Response struct {
+	Total int64                                     `json:"total"`
+	Items []Manager_Admin_GetUserList_Response_Item `json:"items"`
 }
 
-type AdminSelfGetUserListResponse struct {
-	List []AdminSelfGetUserListItem `json:"list"`
+type Manager_Admin_GetUserList_Response_Item struct {
+	ID                  uint64 `json:"id"`             // 用户 ID
+	Name                string `json:"name"`           // 名称
+	Account             string `json:"account"`        // 账号
+	CreatedTimestamp    int64  `json:"created_at"`     // 创建时间
+	LastSigninTimestamp int64  `json:"last_signin_at"` // 上次登录时间
 }
 
-type AdminSelfGetUserListItem struct {
-	ID           uint32 `json:"id"`
-	Name         string `json:"name"`
-	Account      string `json:"account"`
-	Password     string `json:"password"`
-	LastSigninAt uint32 `json:"last_signin_at"`
-	CreatedAt    uint32 `json:"created_at"`
-	UpdatedAt    uint32 `json:"updated_at"`
+type Manager_Admin_GetUserInfo_Request struct {
+	ID uint64 `path:"id"` // 用户 ID
+}
+
+type Manager_Admin_GetUserInfo_Response struct {
+	ID                  uint64 `json:"id"`             // 用户 ID
+	Name                string `json:"name"`           // 名称
+	Account             string `json:"account"`        // 账号
+	CreatedTimestamp    int64  `json:"created_at"`     // 创建时间
+	LastSigninTimestamp int64  `json:"last_signin_at"` // 上次登录时间
 }

@@ -127,13 +127,16 @@ type (
 // - 请求
 type (
     Client_Public_SendSignUpSMS_Request {
-        SendSMS_Request
+        CountryCode string  `json:"country_code"` // 国际区号
+		Mobile      string  `json:"mobile"`       // 手机号码
+		CaptchaCode *string `json:"captcha_code"` // 图形验证码
     }
 )
 // - 响应
 type (
     Client_Public_SendSignUpSMS_Response {
-        SendSMS_Response
+        ExpTimestamp     string `json:"exp_timestamp"`     // 短信验证码有效期时间戳
+		RemainingRetries string `json:"remaining_retries"` // 输入错误剩余重试次数
     }
 )
 
@@ -193,12 +196,15 @@ type (
 // - 请求
 type (
     Client_Public_SendSignInSMS_Request {
-        SendSMS_Request
+        CountryCode string  `json:"country_code"` // 国际区号
+		Mobile      string  `json:"mobile"`       // 手机号码
+		CaptchaCode *string `json:"captcha_code"` // 图形验证码
     }
 )
 // - 响应
 type (
     Client_Public_SendSignInSMS_Response {
-        SendSMS_Response
+        ExpTimestamp     string `json:"exp_timestamp"`     // 短信验证码有效期时间戳
+		RemainingRetries string `json:"remaining_retries"` // 输入错误剩余重试次数
     }
 )
