@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/5-say/go-tools v1.1.5
-	github.com/5-say/zero-services v1.0.2
+	github.com/5-say/zero-services v1.0.4
 	github.com/zeromicro/go-zero v1.5.4
 	gorm.io/gen v0.3.23
 	gorm.io/gorm v1.25.2
