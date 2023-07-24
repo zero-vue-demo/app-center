@@ -1,0 +1,46 @@
+Name: admin_service
+Host: 0.0.0.0
+Port: 8889
+
+Log:
+  Encoding: plain
+  TimeFormat: "2006-01-02 15:04:05 MST -07"
+
+DB:
+  Host: mysql
+  Port: 3306
+  Name: admin_service
+  User: root
+  Password: root
+  LogLevel: 4
+  SlowThreshold: 1
+
+CorsOrigins:
+  - "http://localhost:6678"
+  - "https://localhost:6678"
+
+Auth:
+  # 生成 jwt token 的密钥，最简单的方式可以使用一个 uuid 值，长度要求 8 位及以上
+  AccessSecret: "h392yrjd392"
+  # jwt token 有效期，单位：秒
+  AccessExpire: 3600
+  # 刷新时间间隔（秒）
+  RefreshInterval: 60
+  # 并发容错时间（秒）
+  FaultTolerance: 5
+  # 是否开启 IP 一致性校验，当前 IP 必须与登录时 IP 一致
+  CheckIP: true
+
+JWTXRpc:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: jwtx.rpc
+
+SimpleRandom:
+  # 字典偏移，任意大于零的随机数
+  MapShifting: 87462
+  # 混淆偏移，任意大于零的随机数
+  ConfusionShifting: 52956
+  # 数值偏移，任意大于零的随机数
+  ValueShifting: 9364265

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"app/user/api/internal/svc"
+
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -27,7 +28,6 @@ func NewNothingLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.
 }
 
 func (l *NothingLogic) Nothing() error {
-	// todo: add your logic here and delete this line
 
 	return nil
 }

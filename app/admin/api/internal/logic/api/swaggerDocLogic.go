@@ -4,9 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"app/user/api/doc"
-	"app/user/api/internal/svc"
-
+	"app/admin/api/internal/svc"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -29,8 +27,7 @@ func NewSwaggerDocLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *ht
 }
 
 func (l *SwaggerDocLogic) SwaggerDoc() error {
-	// 写入文档数据
-	l.w.Write(doc.SwaggerJson)
+	// todo: add your logic here and delete this line
 
 	return nil
 }

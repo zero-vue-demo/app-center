@@ -1,4 +1,5 @@
 db/dao/model
 db/dao/query
-api/etc/user.yaml
-api/user
+api/etc/*.yaml
+!api/etc/example.yaml
+api/admin

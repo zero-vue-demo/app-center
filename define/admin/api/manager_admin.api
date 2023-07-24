@@ -1,0 +1,104 @@
+info(
+	description: "管理端 - 管理员登录接口"
+)
+
+@server (
+	group: manager/admin
+	prefix: manager/admin
+	jwt: Auth
+	middleware: JWTXMiddleware, AuthAdminMiddleware
+)
+
+service admin {
+    @doc(
+        summary: 安全退出
+    )
+    @handler signOut
+    post /sign-out(Manager_Admin_SignOut_Request) returns (Manager_Admin_SignOut_Response)
+
+    @doc(
+        summary: 修改密码
+    )
+    @handler editPassword
+    put /password(Manager_Admin_EditPassword_Request) returns (Manager_Admin_EditPassword_Response)
+
+	@doc(
+		summary: 获取管理员列表
+	)
+	@handler getAdminList
+	get /users(Manager_Admin_GetAdminList_Request) returns (Manager_Admin_GetAdminList_Response)
+
+	@doc(
+		summary: 获取管理员详情
+	)
+	@handler getAdminInfo
+	get /users/:id(Manager_Admin_GetAdminInfo_Request) returns (Manager_Admin_GetAdminInfo_Response)
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 安全退出
+// - 请求
+type (
+    Manager_Admin_SignOut_Request {}
+)
+// - 响应
+type (
+    Manager_Admin_SignOut_Response {}
+)
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 修改密码
+// - 请求
+type (
+    Manager_Admin_EditPassword_Request {
+        OriginalPassword string `json:"original_password"` // 原始密码（前端加密后提交）
+        NewPassword      string `json:"new_password"`      // 新的密码（前端加密后提交）
+    }
+)
+// - 响应
+type (
+    Manager_Admin_EditPassword_Response {}
+)
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 获取管理员列表
+// - 请求
+type (
+    Manager_Admin_GetAdminList_Request {
+		Page        *int    `form:"page,optional"`         // 当前页码
+		PerPage     *int    `form:"per_page,optional"`     // 每页条目
+		OrderColumn *string `form:"order_column,optional"` // 排序字段
+		OrderType   *string `form:"order_type,optional"`   // 排序类型，asc、desc
+
+        SearchAccountLike *string `form:"search_account_like,optional"` // 账号
+    }
+)
+// - 响应
+type (
+    Manager_Admin_GetAdminList_Response {
+        Total int64                                     `json:"total"`
+        Items []Manager_Admin_GetAdminList_Response_Item `json:"items"`
+    }
+    Manager_Admin_GetAdminList_Response_Item {
+		ID                  uint64 `json:"id"`             // 管理员 ID
+		Name                string `json:"name"`           // 名称
+		Account             string `json:"account"`        // 账号
+		CreatedTimestamp    int64  `json:"created_at"`     // 创建时间
+		LastSigninTimestamp int64  `json:"last_signin_at"` // 上次登录时间
+    }
+)
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 获取管理员详情
+// - 请求
+type (
+    Manager_Admin_GetAdminInfo_Request {
+        ID uint64 `path:"id"` // 管理员 ID
+    }
+)
+// - 响应
+type (
+    Manager_Admin_GetAdminInfo_Response {
+		ID                  uint64 `json:"id"`             // 管理员 ID
+		Name                string `json:"name"`           // 名称
+		Account             string `json:"account"`        // 账号
+		CreatedTimestamp    int64  `json:"created_at"`     // 创建时间
+		LastSigninTimestamp int64  `json:"last_signin_at"` // 上次登录时间
+    }
+)

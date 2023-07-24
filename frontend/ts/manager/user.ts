@@ -7,15 +7,92 @@ import * as components from "./userComponents"
 export * from "./userComponents"
 
 /**
- * @description 获取用户列表
+ * @description 获取注册图形验证码
  */
-export function manager_admin_getUserList(config?: AxiosRequestConfig) {
-  return http.get<components.AdminSelfGetUserListResponse>(`manager/admin/users`, config)
+export function client_public_getSignUpCaptcha(config?: AxiosRequestConfig) {
+  return http.get<components.Client_Public_GetSignUpCaptcha_Response>(`client/public/sign-up/captcha`, config)
+}
+
+/**
+ * @description 校验注册图形验证码
+ */
+export function client_public_checkSignUpCaptcha(config?: AxiosRequestConfig) {
+  return http.patch<components.Client_Public_CheckSignUpCaptcha_Response>(`client/public/sign-up/check-captcha`, config)
+}
+
+/**
+ * @description 账号注册
+ * @param req
+ */
+export function client_public_signUpAccount(req: components.Client_Public_SignUpAccount_Request, config?: AxiosRequestConfig) {
+  return http.post<components.Client_Public_SignUpAccount_Response>(`client/public/sign-up/account`, req, config)
+}
+
+/**
+ * @description 手机注册
+ * @param req
+ */
+export function client_public_signUpMobile(req: components.Client_Public_SignUpMobile_Request, config?: AxiosRequestConfig) {
+  return http.post<components.Client_Public_SignUpMobile_Response>(`client/public/sign-up/mobile`, req, config)
+}
+
+/**
+ * @description 发送注册短信验证码
+ * @param req
+ */
+export function client_public_sendSignUpSMS(req: components.Client_Public_SendSignUpSMS_Request, config?: AxiosRequestConfig) {
+  return http.patch<components.Client_Public_SendSignUpSMS_Response>(`client/public/sign-up/send-sms`, req, config)
+}
+
+/**
+ * @description 获取登录图形验证码
+ */
+export function client_public_getSignInCaptcha(config?: AxiosRequestConfig) {
+  return http.get<components.Client_Public_GetSignInCaptcha_Response>(`client/public/sign-in/captcha`, config)
+}
+
+/**
+ * @description 校验登录图形验证码
+ */
+export function client_public_checkSignInCaptcha(config?: AxiosRequestConfig) {
+  return http.post<components.Client_Public_CheckSignInCaptcha_Response>(`client/public/sign-in/check-captcha`, config)
+}
+
+/**
+ * @description 账号登录
+ * @param req
+ */
+export function client_public_signInAccount(req: components.Client_Public_SignInAccount_Request, config?: AxiosRequestConfig) {
+  return http.post<components.Client_Public_SignInAccount_Response>(`client/public/sign-in/account`, req, config)
+}
+
+/**
+ * @description 手机登录
+ * @param req
+ */
+export function client_public_signInMobile(req: components.Client_Public_SignInMobile_Request, config?: AxiosRequestConfig) {
+  return http.post<components.Client_Public_SignInMobile_Response>(`client/public/sign-in/mobile`, req, config)
+}
+
+/**
+ * @description 发送登录短信验证码
+ * @param req
+ */
+export function client_public_sendSignInSMS(req: components.Client_Public_SendSignInSMS_Request, config?: AxiosRequestConfig) {
+  return http.patch<components.Client_Public_SendSignInSMS_Response>(`client/public/sign-in/send-sms`, req, config)
+}
+
+/**
+ * @description 获取用户列表
+ * @param query
+ */
+export function manager_admin_getUserList(query: components.Manager_Admin_GetUserList_RequestParams, config?: AxiosRequestConfig) {
+  return http.get<components.Manager_Admin_GetUserList_Response>(`manager/admin/users` + `?` + qs.stringify(query), config)
 }
 
 /**
  * @description 获取用户详情
  */
-export function manager_admin_getUserInfo(config?: AxiosRequestConfig) {
-  return http.get<components.Response>(`manager/admin/users/${id}`, config)
+export function manager_admin_getUserInfo(id: number, config?: AxiosRequestConfig) {
+  return http.get<components.Manager_Admin_GetUserInfo_Response>(`manager/admin/users/${id}`, config)
 }

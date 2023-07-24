@@ -4,13 +4,11 @@ import (
 	"context"
 	"net/http"
 
-	"app/user/api/doc"
-	"app/user/api/internal/svc"
-
+	"app/admin/api/internal/svc"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type SwaggerDocLogic struct {
+type NothingLogic struct {
 	logx.Logger
 	w      http.ResponseWriter
 	r      *http.Request
@@ -18,8 +16,8 @@ type SwaggerDocLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-func NewSwaggerDocLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.Request) *SwaggerDocLogic {
-	return &SwaggerDocLogic{
+func NewNothingLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.Request) *NothingLogic {
+	return &NothingLogic{
 		Logger: logx.WithContext(r.Context()),
 		w:      w,
 		r:      r,
@@ -28,9 +26,8 @@ func NewSwaggerDocLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *ht
 	}
 }
 
-func (l *SwaggerDocLogic) SwaggerDoc() error {
-	// 写入文档数据
-	l.w.Write(doc.SwaggerJson)
+func (l *NothingLogic) Nothing() error {
+	// todo: add your logic here and delete this line
 
 	return nil
 }

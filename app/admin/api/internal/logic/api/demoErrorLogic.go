@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"app/user/api/internal/svc"
-	"app/user/api/internal/types"
+	"app/admin/api/internal/svc"
+	"app/admin/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,6 +29,7 @@ func NewDemoErrorLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *htt
 }
 
 func (l *DemoErrorLogic) DemoError(req *types.DemoError_Request) (resp *types.DemoError_Response, err error) {
+	// todo: add your logic here and delete this line
 
 	return
 }

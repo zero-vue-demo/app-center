@@ -1,8 +1,9 @@
 
 run:
 	@echo ""
-	@echo "this is [ user ] service"
+	@echo "this is [ admin ] service"
 	@echo ""
+	@echo "-----------------------------------------"
 	@echo "make tidy      |  更新 Golang 依赖"
 	@echo "-----------------------------------------"
 	@echo "make ts        |  生成 TypeScript 脚本"
@@ -22,12 +23,11 @@ tidy:
 
 .PHONY:ts
 ts:
-	goctl api plugin -p goctl-ap="ts" --api api/platform/client.api  --dir ../../frontend/ts/client
 	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../frontend/ts/manager
 
 .PHONY:doc
 doc:
-	goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/platform/api.api --dir ../../app/user/api/doc
+	goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/platform/api.api --dir ../../app/admin/api/doc
 
 .PHONY:sql
 sql:
@@ -35,17 +35,17 @@ sql:
 
 .PHONY:dao
 dao:
-	cd ../../app/user/db && go run db.go -f ../api/etc/user.yaml
+	cd ../../app/admin/db && go run db.go -f ../api/etc/admin.yaml
 
 .PHONY:api
 api:
-	goctl api go --api api/platform/api.api --dir ../../app/user/api --style goZero \
+	goctl api go --api api/platform/api.api --dir ../../app/admin/api --style goZero \
 	--remote https://github.com/5-say/go-zero-template --branch custom
 
 .PHONY:api-run
 api-run:
-	cd ../../app/user/api && go run user.go
+	cd ../../app/admin/api && go run admin.go
 
 .PHONY:api-build
 api-build:
-	cd ../../app/user/api && go build user.go
+	cd ../../app/admin/api && go build admin.go
