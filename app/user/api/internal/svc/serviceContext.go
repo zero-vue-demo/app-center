@@ -12,17 +12,16 @@ import (
 type ServiceContext struct {
 	Config              config.Config
 	JWTXRpc             jwtx.JwtxClient
-	JWTXMiddleware      rest.Middleware
 	AuthUserMiddleware  rest.Middleware
 	AuthAdminMiddleware rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	jwtxRpc := jwtx.NewJwtxClient(zrpc.MustNewClient(c.JWTXRpc).Conn())
 	return &ServiceContext{
 		Config:              c,
-		JWTXRpc:             jwtx.NewJwtxClient(zrpc.MustNewClient(c.JWTXRpc).Conn()),
-		JWTXMiddleware:      middleware.NewJWTXMiddleware(c).Handle,
-		AuthUserMiddleware:  middleware.NewAuthUserMiddleware().Handle,
+		JWTXRpc:             jwtxRpc,
+		AuthUserMiddleware:  middleware.NewAuthUserMiddleware(c.JWTXConfig, jwtxRpc).Handle,
 		AuthAdminMiddleware: middleware.NewAuthAdminMiddleware().Handle,
 	}
 }

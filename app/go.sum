@@ -33,8 +33,6 @@ cloud.google.com/go/storage v1.10.0/go.mod h1:FLPqc6j+Ki4BU591ie1oL6qBQGu2Bl/tZ9
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 github.com/5-say/go-tools v1.1.5 h1:aLr7tF9nZsPCk3ihepa88VUhC/mtNbhLxrOblUvn6LM=
 github.com/5-say/go-tools v1.1.5/go.mod h1:rG8gN2AMVw/U8AtV5nQfsG/9S2c/nwHNDteaZKa+TYo=
-github.com/5-say/zero-services v1.0.2 h1:vISX9kZ1Fg7hKOaM7Gkn5F4R2gw5ZPB29Dp/1aPCsoU=
-github.com/5-say/zero-services v1.0.2/go.mod h1:Ilb8lmsY3SicC3gZZcHcyvYadvrlJCprnjODaUQuSGc=
 github.com/5-say/zero-services v1.0.4 h1:zo5PhZJPBj42gZe1vzt+GKUTfgWU8MJoBIM5FCXIlng=
 github.com/5-say/zero-services v1.0.4/go.mod h1:Ilb8lmsY3SicC3gZZcHcyvYadvrlJCprnjODaUQuSGc=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=

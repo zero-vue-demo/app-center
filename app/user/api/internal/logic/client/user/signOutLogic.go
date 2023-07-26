@@ -8,7 +8,6 @@ import (
 	"app/user/api/internal/svc"
 	"app/user/api/internal/types"
 
-	"github.com/5-say/go-tools/tools/t"
 	"github.com/5-say/zero-services/public/jwtx"
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,12 +31,13 @@ func NewSignOutLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.
 }
 
 func (l *SignOutLogic) SignOut(req *types.Client_User_SignOut_Request) (resp *types.Client_User_SignOut_Response, err error) {
+	// 获取终端信息
+	terminal := ""
+
 	// 调用 RPC 移除 Token
-	_, err = l.svcCtx.JWTXRpc.DeleteToken(l.ctx, &jwtx.DeleteToken_Request{
-		TokenID: l.ctx.Value("tokenID").(uint64),
-	})
+	rpcError := jwtx.Signout(terminal, l.r, l.svcCtx.JWTXRpc)
 	if err != nil {
-		return nil, response.Error(t.RPCErrorParse(err).PublicMessage)
+		return nil, response.Error(rpcError.Error())
 	}
 
 	return &types.Client_User_SignOut_Response{}, nil

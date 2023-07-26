@@ -1,10 +1,9 @@
+go work init app common
+
 cd work
+
 git clone git@github.com:5-say/go-tools.git
-cd ..
-go work use ./work/go-tools
+go work use ./go-tools
 
-
-cd work
 git clone git@github.com:5-say/zero-services.git
-cd ..
-go work use ./work/zero-services
+go work use ./zero-services

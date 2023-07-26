@@ -10,10 +10,7 @@ import (
 	"app/user/db/dao"
 	"app/user/db/dao/model"
 
-	"github.com/5-say/go-tools/tools/ip"
 	"github.com/5-say/go-tools/tools/password"
-	"github.com/5-say/go-tools/tools/random"
-	"github.com/5-say/go-tools/tools/t"
 	"github.com/5-say/zero-services/public/jwtx"
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -70,21 +67,18 @@ func (l *SignUpAccountLogic) SignUpAccount(req *types.Client_Public_SignUpAccoun
 		return nil, response.Error("注册失败")
 	}
 
-	// 注册成功
+	// 注册成功 - - - - - - - -
+
+	// 获取登录终端
+	terminal := ""
+
 	// 请求 rpc 生成 token
-	rpcResponse, err := l.svcCtx.JWTXRpc.MakeToken(l.ctx, &jwtx.MakeToken_Request{
-		AccessSecret:    l.svcCtx.Config.Auth.AccessSecret,
-		AccessExpire:    l.svcCtx.Config.Auth.AccessExpire,
-		Group:           l.svcCtx.Config.Name + ".user",
-		AccountID:       user.ID,
-		RandomAccountID: random.Simple(l.svcCtx.Config.SimpleRandom).Encode(int64(user.ID), 8),
-		RequestIP:       ip.GetRequestIP(l.r),
-	})
-	if err != nil {
-		return nil, response.Error(t.RPCErrorParse(err).PublicMessage)
+	tokenStr, rpcError := jwtx.Signin(terminal, user.ID, l.r, l.svcCtx.Config.JWTXConfig, l.svcCtx.JWTXRpc)
+	if rpcError != nil {
+		return nil, response.Error(rpcError.Error())
 	}
 
 	return &types.Client_Public_SignUpAccount_Response{
-		Token: rpcResponse.Token,
+		Token: tokenStr,
 	}, nil
 }

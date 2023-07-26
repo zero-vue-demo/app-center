@@ -1,14 +1,6 @@
 package middleware
 
-import (
-	"app/user/api/internal/config"
-	"common/response"
-	"net/http"
-
-	"github.com/5-say/go-tools/tools/random"
-	"github.com/5-say/zero-services/public/jwtx"
-	"github.com/zeromicro/go-zero/rest/httpx"
-)
+import "net/http"
 
 type AuthAdminMiddleware struct {
 }
@@ -19,25 +11,11 @@ func NewAuthAdminMiddleware() *AuthAdminMiddleware {
 
 func (m *AuthAdminMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var (
-			result = jwtx.GetMiddlewareResult(r.Context())
-			c      = r.Context().Value("c").(config.Config)
-		)
+		// TODO generate middleware implement function, delete after code implementation
 
-		// 分组校验
-		if result.TokenGroup != c.Name+".admin" {
-			appErr := response.Forbidden().Message("token group fail")
-			httpx.ErrorCtx(r.Context(), w, appErr)
-			return
-		}
+		// 此处调用 admin_service 的 rpc
 
-		// AccountID 防篡改
-		if int64(result.AccountID) != random.Simple(c.SimpleRandom).Decode(result.RandomAccountID) {
-			appErr := response.Unauthorized().Message("token was tampered with")
-			httpx.ErrorCtx(r.Context(), w, appErr)
-			return
-		}
-
+		// Passthrough to next handler if need
 		next(w, r)
 	}
 }

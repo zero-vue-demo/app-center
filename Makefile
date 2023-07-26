@@ -1,16 +1,21 @@
 
-
 run:
-
-
-
-help:
 	@echo ""
-	@echo "make i   | make init      : 初始化项目"
+	@echo "-----------------------------------------"
+	@echo "make init  | 初始化项目"
+	@echo "-----------------------------------------"
+	@echo "make user  | 启动 swagger 文档"
+	@echo "-----------------------------------------"
 	@echo ""
 
-i:init
+.PHONY:init
 init:
+	sh shell/install-docker.sh
 	sh shell/install-goctl.sh
 	sh shell/install-gopls.sh
 	sh shell/install-vscode-extension.sh
+
+.PHONY:user
+user:
+	goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/platform/api.api --dir ../../app/user/api/doc
+	docker run --rm --name="doc-user-service" -P -e SWAGGER_JSON_URL=http://localhost:8888/doc/swagger swaggerapi/swagger-ui

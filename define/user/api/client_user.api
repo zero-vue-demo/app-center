@@ -5,8 +5,8 @@ info(
 @server (
     group: client/user
     prefix: client/user
-    jwt: Auth
-    middleware: JWTXMiddleware, AuthUserMiddleware
+    auth: jwt
+    middleware: AuthUserMiddleware
 )
 
 service user {
