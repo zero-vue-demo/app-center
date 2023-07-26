@@ -24,7 +24,7 @@ func (m *AuthUserMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		// 调用 jwtx-rpc 中间件
-		newCtx, middlewareResult, rpcError := jwtx.Middleware(r, m.jwtxConfig, m.jwtxClient)
+		newCtx, middlewareResult, rpcError := jwtx.Middleware(r.Header.Get("Authorization"), r, m.jwtxConfig, m.jwtxClient)
 
 		// token 校验失败
 		if rpcError != nil {

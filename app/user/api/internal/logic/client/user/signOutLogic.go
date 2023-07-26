@@ -35,7 +35,7 @@ func (l *SignOutLogic) SignOut(req *types.Client_User_SignOut_Request) (resp *ty
 	terminal := ""
 
 	// 调用 RPC 移除 Token
-	rpcError := jwtx.Signout(terminal, l.r, l.svcCtx.JWTXRpc)
+	rpcError := jwtx.Signout(terminal, l.svcCtx.Config.JWTXConfig.SingleEnd, l.r, l.svcCtx.JWTXRpc)
 	if err != nil {
 		return nil, response.Error(rpcError.Error())
 	}

@@ -30,6 +30,8 @@ JWTXConfig:
   AccessGroup: "user_service"
   # 是否开启 IP一致性校验，当前 IP 必须与登录时 IP 一致
   CheckIP: true
+  # 是否开启 单端登录
+  SingleEnd: true
 
   # 刷新时间间隔（秒）
   #
