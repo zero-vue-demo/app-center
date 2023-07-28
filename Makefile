@@ -18,4 +18,4 @@ init:
 .PHONY:user
 user:
 	goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/platform/api.api --dir ../../app/user/api/doc
-	docker run --rm --name="doc-user-service" -P -e SWAGGER_JSON_URL=http://localhost:8888/doc/swagger swaggerapi/swagger-ui
+	docker run --rm --name="doc-user-service" -p 7888:8080 -e SWAGGER_JSON_URL=http://localhost:8888/doc/swagger swaggerapi/swagger-ui

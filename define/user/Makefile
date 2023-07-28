@@ -22,8 +22,8 @@ tidy:
 
 .PHONY:ts
 ts:
-	goctl api plugin -p goctl-ap="ts" --api api/platform/client.api  --dir ../../frontend/ts/client
-	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../frontend/ts/manager
+	goctl api plugin -p goctl-ap="ts" --api api/platform/client.api  --dir ../../public/ts/client
+	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../public/ts/manager
 
 .PHONY:doc
 doc:
@@ -49,3 +49,7 @@ api-run:
 .PHONY:api-build
 api-build:
 	cd ../../app/user/api && go build user.go
+
+.PHONY:rpc
+rpc:
+	goctl rpc protoc rpc/user.proto --go_out=../../public/rpc --go-grpc_out=../../public/rpc --zrpc_out=../../app/user/rpc --style goZero

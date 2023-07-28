@@ -23,7 +23,7 @@ tidy:
 
 .PHONY:ts
 ts:
-	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../frontend/ts/manager
+	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../public/ts/manager
 
 .PHONY:doc
 doc:
