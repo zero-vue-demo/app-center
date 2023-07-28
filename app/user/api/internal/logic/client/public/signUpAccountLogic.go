@@ -10,8 +10,10 @@ import (
 	"app/user/db/dao"
 	"app/user/db/dao/model"
 
+	"github.com/5-say/go-tools/tools/ip"
 	"github.com/5-say/go-tools/tools/password"
-	"github.com/5-say/zero-services/public/jwtx"
+	"github.com/5-say/go-tools/tools/t"
+	userRpc "github.com/zero-vue-demo/app-center-public/rpc/user"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -73,12 +75,17 @@ func (l *SignUpAccountLogic) SignUpAccount(req *types.Client_Public_SignUpAccoun
 	terminal := ""
 
 	// 请求 rpc 生成 token
-	tokenStr, rpcError := jwtx.Signin(terminal, user.ID, l.r, l.svcCtx.Config.JWTXConfig, l.svcCtx.JWTXRpc)
-	if rpcError != nil {
+	rpcResp, err := l.svcCtx.UserRpc.MakeToken(l.ctx, &userRpc.MakeToken_Request{
+		AccessTerminal: terminal,
+		AccountID:      user.ID,
+		RequestIP:      ip.GetRequestIP(l.r),
+	})
+	if err != nil {
+		rpcError := t.RPCErrorParse(err)
 		return nil, response.Error(rpcError.Error())
 	}
 
 	return &types.Client_Public_SignUpAccount_Response{
-		Token: tokenStr,
+		Token: rpcResp.Token,
 	}, nil
 }

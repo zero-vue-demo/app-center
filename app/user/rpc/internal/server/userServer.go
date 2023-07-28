@@ -6,7 +6,7 @@ package server
 import (
 	"context"
 
-	"app/com.docker.devenvironments.code/public/rpc/user"
+	"github.com/zero-vue-demo/app-center-public/rpc/user"
 	"app/user/rpc/internal/logic"
 	"app/user/rpc/internal/svc"
 )

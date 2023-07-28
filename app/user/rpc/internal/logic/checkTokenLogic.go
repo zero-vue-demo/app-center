@@ -3,8 +3,10 @@ package logic
 import (
 	"context"
 
-	"app/com.docker.devenvironments.code/public/user"
 	"app/user/rpc/internal/svc"
+
+	"github.com/5-say/zero-services/public/jwtx"
+	"github.com/zero-vue-demo/app-center-public/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +27,29 @@ func NewCheckTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CheckT
 
 // 校验 token（拓展校验、刷新 token）
 func (l *CheckTokenLogic) CheckToken(in *user.CheckToken_Request) (*user.CheckToken_Response, error) {
-	// todo: add your logic here and delete this line
 
-	return &user.CheckToken_Response{}, nil
+	jwtxConfig := l.svcCtx.Config.JWTXConfig
+	resp, err := l.svcCtx.JWTXRpc.CheckToken(l.ctx, &jwtx.CheckToken_Request{
+		AccessGroup:        jwtxConfig.AccessGroup,
+		RefreshInterval:    jwtxConfig.RefreshInterval,
+		FaultTolerance:     jwtxConfig.FaultTolerance,
+		AutomaticRenewal:   jwtxConfig.AutomaticRenewal,
+		AccessExpireByHour: jwtxConfig.AccessExpireByHour,
+		CheckIP:            jwtxConfig.CheckIP,
+		RequestIP:          in.RequestIP,
+		RequestToken:       in.RequestToken,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user.CheckToken_Response{
+		TokenID:             resp.TokenID,
+		AccountID:           resp.AccountID,
+		AccessTerminal:      resp.AccessTerminal,
+		MakeTokenIP:         resp.MakeTokenIP,
+		ExpirationTimestamp: resp.ExpirationTimestamp,
+		NewToken:            resp.NewToken,
+	}, nil
 }

@@ -15,6 +15,10 @@ run:
 	@echo "make api       |  生成 api 文件"
 	@echo "make api-run   |  运行 api 服务"
 	@echo "make api-build |  编译 api 服务"
+	@echo "-----------------------------------------"
+	@echo "make rpc       |  生成 rpc 文件"
+	@echo "make rpc-run   |  运行 rpc 服务"
+	@echo "make rpc-build |  编译 rpc 服务"
 	@echo ""
 
 .PHONY:tidy
@@ -23,7 +27,7 @@ tidy:
 
 .PHONY:ts
 ts:
-	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../public/ts/manager
+	goctl api plugin -p goctl-ap="ts" --api api/platform/manager.api --dir ../../work/app-center-public/ts/manager
 
 .PHONY:doc
 doc:
@@ -35,7 +39,7 @@ sql:
 
 .PHONY:dao
 dao:
-	cd ../../app/admin/db && go run db.go -f ../api/etc/admin.yaml
+	cd ../../app/admin/db && go run db.go -f ../api/etc/admin-api.yaml
 
 .PHONY:api
 api:
@@ -44,8 +48,13 @@ api:
 
 .PHONY:api-run
 api-run:
-	cd ../../app/admin/api && go run admin.go
+	cd ../../app/admin/api && go run admin.go -f ./etc/admin-api.yaml
 
 .PHONY:api-build
 api-build:
-	cd ../../app/admin/api && go build admin.go
+	cd ../../app/admin/api && go build -o admin-api admin.go
+
+.PHONY:rpc
+rpc:
+	goctl rpc protoc rpc/admin.proto --go_out=../../work/app-center-public/rpc --go-grpc_out=../../work/app-center-public/rpc --zrpc_out=../../app/admin/rpc --style goZero
+

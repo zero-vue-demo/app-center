@@ -2,32 +2,39 @@ package middleware
 
 import (
 	"common/response"
+	"context"
 	"net/http"
 
+	"github.com/5-say/go-tools/tools/ip"
+	"github.com/5-say/go-tools/tools/t"
 	"github.com/5-say/zero-services/public/jwtx"
+	"github.com/zero-vue-demo/app-center-public/rpc/user"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 type AuthUserMiddleware struct {
-	jwtxConfig jwtx.Config
-	jwtxClient jwtx.JwtxClient
+	userClient user.UserClient
 }
 
-func NewAuthUserMiddleware(jwtxConfig jwtx.Config, jwtxClient jwtx.JwtxClient) *AuthUserMiddleware {
+func NewAuthUserMiddleware(userClient user.UserClient) *AuthUserMiddleware {
 	return &AuthUserMiddleware{
-		jwtxConfig: jwtxConfig,
-		jwtxClient: jwtxClient,
+		userClient: userClient,
 	}
 }
 
 func (m *AuthUserMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		// 调用 jwtx-rpc 中间件
-		newCtx, middlewareResult, rpcError := jwtx.Middleware(r.Header.Get("Authorization"), r, m.jwtxConfig, m.jwtxClient)
+		// 调用 user-rpc 中间件
+		result, err := m.userClient.CheckToken(r.Context(), &user.CheckToken_Request{
+			RequestIP:    ip.GetRequestIP(r),
+			RequestToken: r.Header.Get("Authorization"),
+		})
 
 		// token 校验失败
-		if rpcError != nil {
+		if err != nil {
+
+			rpcError := t.RPCErrorParse(err)
 
 			// 内部错误信息日志
 			// println(rpcError.PrivateMessage)
@@ -41,7 +48,17 @@ func (m *AuthUserMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		} else {
 
 			// 响应头填充刷新后的 token
-			w.Header().Add("NEW-TOKEN", middlewareResult.NewToken)
+			w.Header().Add("NEW-TOKEN", result.NewToken)
+
+			// 附加上下文
+			newCtx := context.WithValue(r.Context(), jwtx.MIDDLEWARE_RESULT, jwtx.MiddlewareResult{
+				TokenID:             result.TokenID,
+				AccountID:           result.AccountID,
+				AccessTerminal:      result.AccessTerminal,
+				MakeTokenIP:         result.MakeTokenIP,
+				ExpirationTimestamp: result.ExpirationTimestamp,
+				NewToken:            result.NewToken,
+			})
 
 			// Passthrough to next handler if need
 			next(w, r.WithContext(newCtx))

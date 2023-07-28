@@ -4,10 +4,11 @@ import (
 	"flag"
 	"fmt"
 
-	"app/com.docker.devenvironments.code/public/user"
 	"app/user/rpc/internal/config"
 	"app/user/rpc/internal/server"
 	"app/user/rpc/internal/svc"
+
+	"github.com/zero-vue-demo/app-center-public/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
