@@ -24,3 +24,9 @@ UserRpc:
     Hosts:
       - etcd:2379
     Key: user.rpc
+
+AdminRpc:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: admin.rpc

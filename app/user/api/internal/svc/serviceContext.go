@@ -4,6 +4,7 @@ import (
 	"app/user/api/internal/config"
 	"app/user/api/internal/middleware"
 
+	"github.com/zero-vue-demo/app-center-public/rpc/admin"
 	"github.com/zero-vue-demo/app-center-public/rpc/user"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -17,11 +18,12 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	adminRpc := admin.NewAdminClient(zrpc.MustNewClient(c.AdminRpc).Conn())
 	userRpc := user.NewUserClient(zrpc.MustNewClient(c.UserRpc).Conn())
 	return &ServiceContext{
 		Config:              c,
 		UserRpc:             userRpc,
 		AuthUserMiddleware:  middleware.NewAuthUserMiddleware(userRpc).Handle,
-		AuthAdminMiddleware: middleware.NewAuthAdminMiddleware().Handle,
+		AuthAdminMiddleware: middleware.NewAuthAdminMiddleware(adminRpc).Handle,
 	}
 }

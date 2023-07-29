@@ -11,4 +11,5 @@ type Config struct {
 	DB          db.Config
 	CorsOrigins []string
 	UserRpc     zrpc.RpcClientConf
+	AdminRpc    zrpc.RpcClientConf
 }

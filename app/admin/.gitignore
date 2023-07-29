@@ -2,4 +2,7 @@ db/dao/model
 db/dao/query
 api/etc/*.yaml
 !api/etc/example.yaml
-api/admin
+api/admin-api
+rpc/etc/*.yaml
+!rpc/etc/example.yaml
+rpc/admin-rpc
