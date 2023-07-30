@@ -16,7 +16,7 @@ if docker container inspect "$CONTAINER_NAME" >/dev/null 2>&1; then
 else
     #容器不存在
     echo "Container $CONTAINER_NAME does not exist."
-    docker run --name="zero" -p 7888:8080 -e URLS=`[ { url: 'http://localhost:8888/doc/swagger', name: 'user-api' } ]` swaggerapi/swagger-ui
+    docker run --rm --name="zero" -p 7888:8080 -e SWAGGER_JSON_URL=http://localhost:8888/doc/swagger swaggerapi/swagger-ui
     exit 1
 fi
 
