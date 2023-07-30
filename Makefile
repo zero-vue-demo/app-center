@@ -15,7 +15,14 @@ init:
 	sh shell/install-gopls.sh
 	sh shell/install-vscode-extension.sh
 
-.PHONY:user
-user:
-	goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/platform/api.api --dir ../../app/user/api/doc
-	docker run --rm --name="doc-user-service" -p 7888:8080 -e SWAGGER_JSON_URL=http://localhost:8888/doc/swagger swaggerapi/swagger-ui
+.PHONY:jwtx-rpc
+jwtx-rpc:
+	cd work/zero-services/private/jwtx/rpc && go run jwtx.go -f ./etc/jwtx.yaml
+
+.PHONY:admin-rpc
+admin-rpc:
+	cd app/admin/rpc && go run admin.go -f ./etc/admin-rpc.yaml
+
+.PHONY:user-rpc
+user-rpc:
+	cd app/user/rpc && go run user.go -f ./etc/user-rpc.yaml
