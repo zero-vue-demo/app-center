@@ -4,22 +4,22 @@ import (
 	"app/admin/api/internal/config"
 	"app/admin/api/internal/middleware"
 
-	"github.com/zero-vue-demo/app-center-public/rpc/admin"
+	"github.com/5-say/zero-auth/public/jwtx"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
 	Config              config.Config
-	AdminRpc            admin.AdminClient
+	JWTXRpc             jwtx.JwtxClient
 	AuthAdminMiddleware rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	adminRpc := admin.NewAdminClient(zrpc.MustNewClient(c.AdminRpc).Conn())
+	jwtxRpc := jwtx.NewJwtxClient(zrpc.MustNewClient(c.JWTXRpc).Conn())
 	return &ServiceContext{
 		Config:              c,
-		AdminRpc:            adminRpc,
-		AuthAdminMiddleware: middleware.NewAuthAdminMiddleware(adminRpc).Handle,
+		JWTXRpc:             jwtxRpc,
+		AuthAdminMiddleware: middleware.NewAuthAdminMiddleware(jwtxRpc, "admin").Handle,
 	}
 }

@@ -10,5 +10,5 @@ type Config struct {
 	rest.RestConf
 	DB          db.Config
 	CorsOrigins []string
-	AdminRpc    zrpc.RpcClientConf
+	JWTXRpc     zrpc.RpcClientConf
 }

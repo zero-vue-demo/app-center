@@ -12,7 +12,7 @@ import (
 	"github.com/5-say/go-tools/tools/ip"
 	"github.com/5-say/go-tools/tools/password"
 	"github.com/5-say/go-tools/tools/t"
-	userRpc "github.com/zero-vue-demo/app-center-public/rpc/user"
+	"github.com/5-say/zero-auth/public/jwtx"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -57,14 +57,15 @@ func (l *SignInAccountLogic) SignInAccount(req *types.Client_Public_SignInAccoun
 	terminal := ""
 
 	// 请求 rpc 生成 token
-	rpcResp, err := l.svcCtx.UserRpc.MakeToken(l.ctx, &userRpc.MakeToken_Request{
-		AccessTerminal: terminal,
-		AccountID:      user.ID,
-		RequestIP:      ip.GetRequestIP(l.r),
+	rpcResp, rpcError := l.svcCtx.JWTXRpc.MakeToken(l.ctx, &jwtx.MakeToken_Request{
+		Group:     "user",
+		Terminal:  terminal,
+		AccountID: user.ID,
+		RequestIP: ip.GetRequestIP(l.r),
 	})
-	if err != nil {
-		rpcError := t.RPCErrorParse(err)
-		return nil, response.Error(rpcError.Error())
+	if rpcError != nil {
+		err := t.RPCErrorParse(rpcError)
+		return nil, response.Error(err.Error())
 	}
 
 	return &types.Client_Public_SignInAccount_Response{

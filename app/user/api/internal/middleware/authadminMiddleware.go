@@ -2,45 +2,47 @@ package middleware
 
 import (
 	"common/response"
-	"context"
 	"net/http"
 
 	"github.com/5-say/go-tools/tools/ip"
 	"github.com/5-say/go-tools/tools/t"
-	"github.com/5-say/zero-services/public/jwtx"
-	"github.com/zero-vue-demo/app-center-public/rpc/admin"
+	"github.com/5-say/zero-auth/public/jwtx"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 type AuthAdminMiddleware struct {
-	adminClient admin.AdminClient
+	jwtxClient jwtx.JwtxClient
+	group      string
 }
 
-func NewAuthAdminMiddleware(adminClient admin.AdminClient) *AuthAdminMiddleware {
+func NewAuthAdminMiddleware(jwtxClient jwtx.JwtxClient, group string) *AuthAdminMiddleware {
 	return &AuthAdminMiddleware{
-		adminClient: adminClient,
+		jwtxClient: jwtxClient,
+		group:      group,
 	}
 }
 
 func (m *AuthAdminMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		// 调用 admin-rpc 中间件
-		result, err := m.adminClient.CheckToken(r.Context(), &admin.CheckToken_Request{
+		// 调用 jwtx-rpc 中间件
+		rpcResponse, rpcError := m.jwtxClient.CheckToken(r.Context(), &jwtx.CheckToken_Request{
+			Group:        m.group,
 			RequestIP:    ip.GetRequestIP(r),
 			RequestToken: r.Header.Get("Authorization"),
 		})
 
 		// token 校验失败
-		if err != nil {
+		if rpcError != nil {
 
-			rpcError := t.RPCErrorParse(err)
+			err := t.RPCErrorParse(rpcError)
 
 			// 内部错误信息日志
-			// println(rpcError.PrivateMessage)
+			logx.Debug(err.PrivateMessage)
 
 			// 加工错误对象
-			appErr := response.Unauthorized().Message(rpcError.Error())
+			appErr := response.Unauthorized().Message(err.Error())
 
 			// 为响应对象写入错误信息
 			httpx.ErrorCtx(r.Context(), w, appErr)
@@ -48,17 +50,10 @@ func (m *AuthAdminMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		} else {
 
 			// 响应头填充刷新后的 token
-			w.Header().Add("NEW-TOKEN", result.NewToken)
+			w.Header().Add("NEW-TOKEN", rpcResponse.NewToken)
 
 			// 附加上下文
-			newCtx := context.WithValue(r.Context(), jwtx.MIDDLEWARE_RESULT, jwtx.MiddlewareResult{
-				TokenID:             result.TokenID,
-				AccountID:           result.AccountID,
-				AccessTerminal:      result.AccessTerminal,
-				MakeTokenIP:         result.MakeTokenIP,
-				ExpirationTimestamp: result.ExpirationTimestamp,
-				NewToken:            result.NewToken,
-			})
+			newCtx := jwtx.WithValue(r.Context(), rpcResponse)
 
 			// Passthrough to next handler if need
 			next(w, r.WithContext(newCtx))

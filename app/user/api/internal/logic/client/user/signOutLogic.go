@@ -9,8 +9,7 @@ import (
 	"app/user/api/internal/types"
 
 	"github.com/5-say/go-tools/tools/t"
-	"github.com/5-say/zero-services/public/jwtx"
-	userRpc "github.com/zero-vue-demo/app-center-public/rpc/user"
+	"github.com/5-say/zero-auth/public/jwtx"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -35,17 +34,18 @@ func NewSignOutLogic(svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.
 func (l *SignOutLogic) SignOut(req *types.Client_User_SignOut_Request) (resp *types.Client_User_SignOut_Response, err error) {
 
 	// 获取上下文信息
-	middlewareResult := l.ctx.Value(jwtx.MIDDLEWARE_RESULT).(jwtx.MiddlewareResult)
+	middlewareResult := jwtx.GetValue(l.ctx)
 
 	// 调用 RPC 移除 Token
-	_, err = l.svcCtx.UserRpc.DeleteToken(l.ctx, &userRpc.DeleteToken_Request{
-		TokenID:        middlewareResult.TokenID,
-		AccountID:      middlewareResult.AccountID,
-		AccessTerminal: middlewareResult.AccessTerminal,
+	_, rpcError := l.svcCtx.JWTXRpc.DeleteToken(l.ctx, &jwtx.DeleteToken_Request{
+		Group:     "user",
+		TokenID:   middlewareResult.TokenID,
+		AccountID: middlewareResult.AccountID,
+		Terminal:  middlewareResult.Terminal,
 	})
-	if err != nil {
-		rpcError := t.RPCErrorParse(err)
-		return nil, response.Error(rpcError.Error())
+	if rpcError != nil {
+		err := t.RPCErrorParse(rpcError)
+		return nil, response.Error(err.Error())
 	}
 
 	return &types.Client_User_SignOut_Response{}, nil
