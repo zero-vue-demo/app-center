@@ -4,7 +4,10 @@ run:
 	@echo "-----------------------------------------"
 	@echo "make init  | 初始化项目"
 	@echo "-----------------------------------------"
-	@echo "make user  | 启动 swagger 文档"
+	@echo "make dev   | 初始化开发环境"
+	@echo "make stop  | 关闭所有后台程序"
+	@echo "-----------------------------------------"
+	@echo "make jwtx  | 后台运行 jwtx rpc 服务"
 	@echo "-----------------------------------------"
 	@echo ""
 
@@ -15,14 +18,15 @@ init:
 	sh shell/install-gopls.sh
 	sh shell/install-vscode-extension.sh
 
-.PHONY:jwtx-rpc
-jwtx-rpc:
-	cd work/zero-services/private/jwtx/rpc && go run jwtx.go -f ./etc/jwtx.yaml
+.PHONY:dev
+dev:
+	cd work/zero-auth/private/jwtx/rpc && go build jwtx.go && mv jwtx ../../../../../dev/jwtx-rpc
+	cp work/zero-auth/public/jwtx/deploy/jwtx-rpc.yaml dev/jwtx-rpc.yaml
 
-.PHONY:admin-rpc
-admin-rpc:
-	cd app/admin/rpc && go run admin.go -f ./etc/admin-rpc.yaml
+.PHONY:stop
+stop:
+	cd dev && sh stop jwtx-rpc
 
-.PHONY:user-rpc
-user-rpc:
-	cd app/user/rpc && go run user.go -f ./etc/user-rpc.yaml
+.PHONY:jwtx
+jwtx:
+	cd dev && sh start jwtx-rpc -f jwtx-rpc.yaml

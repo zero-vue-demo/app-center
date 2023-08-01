@@ -1,0 +1,24 @@
+#!/bin/sh
+
+if test -z "$1"
+then
+  echo "need target"
+else
+  # 目标文件
+  target=$1
+
+  # 确保创建日志目录
+  if test ! -d "_logs"
+  then
+    `mkdir _logs`
+  fi
+
+  # 重新运行程序
+  `rm -f _logs/${target}_runtime.log`
+  `nohup ./$target $2 $3 $4 $5 >> _logs/${target}_runtime.log 2>&1 &`
+
+  # 输出反馈
+  sleep 2s
+  echo `cat _logs/${target}_runtime.log`
+  echo "$target is started."
+fi

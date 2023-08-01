@@ -38,7 +38,7 @@ sql:
 
 .PHONY:dao
 dao:
-	cd ../../app/user/db && go run db.go -f ../api/etc/user-api.yaml
+	cd ../../app/user/db && go run db.go -f ../api/etc/user.yaml
 
 .PHONY:api
 api:
@@ -47,7 +47,7 @@ api:
 
 .PHONY:api-run
 api-run:
-	cd ../../app/user/api && go run user.go -f ./etc/user-api.yaml
+	cd ../../app/user/api && go run user.go -f ./etc/user.yaml
 
 .PHONY:rpc
 rpc:
