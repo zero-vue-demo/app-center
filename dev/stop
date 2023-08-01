@@ -8,7 +8,8 @@ else
   target=$1
 
   # 根据进程名结束进程
-  process=`ps -ef|grep $target|grep -v grep|grep -v PPID|awk '{ print $2}'`
+  # ps -ef|grep $target|grep -v grep|grep -v stop
+  process=`ps -ef|grep $target|grep -v grep|grep -v stop|awk '{print $2}'`
   for i in $process
   do
     echo "Kill the $target process [ $i ]"

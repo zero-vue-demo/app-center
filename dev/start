@@ -15,7 +15,7 @@ else
 
   # 重新运行程序
   `rm -f _logs/${target}_runtime.log`
-  `nohup ./$target $2 $3 $4 $5 >> _logs/${target}_runtime.log 2>&1 &`
+  `nohup ./service/$target $2 $3 $4 $5 >> _logs/${target}_runtime.log 2>&1 &`
 
   # 输出反馈
   sleep 2s
