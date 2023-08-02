@@ -14,9 +14,6 @@ run:
 	@echo "-----------------------------------------"
 	@echo "make api       |  生成 api 文件"
 	@echo "make api-run   |  运行 api 服务"
-	@echo "-----------------------------------------"
-	@echo "make rpc       |  生成 rpc 文件"
-	@echo "make rpc-run   |  运行 rpc 服务"
 	@echo ""
 
 .PHONY:tidy
@@ -47,8 +44,3 @@ api:
 .PHONY:api-run
 api-run:
 	cd ../../app/admin/api && go run admin.go -f ./etc/admin.yaml
-
-.PHONY:rpc
-rpc:
-	goctl rpc protoc rpc/admin.proto --go_out=../../work/app-center-public/rpc --go-grpc_out=../../work/app-center-public/rpc --zrpc_out=../../app/admin/rpc --style goZero
-
