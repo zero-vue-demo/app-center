@@ -1,6 +1,8 @@
 # app-center
 
-Docker 环境下的 go-zero 开发示例
+服务中心
+
+> Docker 环境下的 go-zero 开发示例
 
 ## 使用方法
 
@@ -10,18 +12,18 @@ Docker 环境下的 go-zero 开发示例
 ## 开发流程
 
 > 以 admin 服务为例\
-服务设计目录为 `define/admin`
+服务定义目录为 `define/admin`
 
 ### 服务创建
 
-- 初始化“*服务设计目录*”
+- 初始化“*服务定义目录*”
     - 在根目录下执行 `make new service=admin`
-- 数据结构设计
+- 数据结构定义
   - 在 `define/admin/db/mysql` 目录下分别定义各表数据结构
   - 在 `define/admin` 目录下执行 `make sql` 合并 sql 文件
   - 利用 vscode 插件创建数据库、导入数据结构
   - 在 `define/admin` 目录下执行 `make dao` 生成 dao 文件
-- 服务 api 设计
+- 服务 api 定义
   - 在 `define/admin/api` 目录下定义 api 结构
   - 在 `define/admin` 目录下执行 `make doc` 生成 api 文档
   - 在 `define/admin` 目录下执行 `make api` 生成 api 基础代码
