@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# 获取参数：容器名称
+CONTAINER_NAME=$1
+# 获取参数：容器端口
+CONTAINER_PORT=$2
+# 获取参数：文档 URL
+SWAGGER_JSON_URL=$3
+
+# 判断容器是否存在
+if docker container inspect "$CONTAINER_NAME" >/dev/null 2>&1; then
+    # 容器存在
+    echo "$CONTAINER_NAME http://localhost:$CONTAINER_PORT"
+else
+    #容器不存在
+    docker run --rm --name="$CONTAINER_NAME" -d -p $CONTAINER_PORT:8080 -e SWAGGER_JSON_URL=$SWAGGER_JSON_URL swaggerapi/swagger-ui
+    echo "$CONTAINER_NAME http://localhost:$CONTAINER_PORT"
+fi
+
