@@ -33,6 +33,11 @@
   - 在 `define/admin` 目录下执行 `make doc` 生成 api 文档
   - 在 `define/admin` 目录下执行 `make api` 生成 api 基础代码
   - 在 `define/admin` 目录下执行 `make ts` 生成 api TypeScript 脚本
+  - 文件目录说明
+    - `define/admin/api/app/app.api` 为生成 api 基础代码的入口文件
+    - `define/admin/api/app/platform/*.api` 为生成 api TypeScript 脚本的入口文件
+  - 文件命名规范
+    - `平台名称_权限分组.api`
 
 ### 服务开发
 
