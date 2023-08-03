@@ -3,6 +3,10 @@ import(
 	"../platform/manager.api"
 )
 
+info (
+	title: "user-api"
+)
+
 @server (
 	group: api
 	swtags: user-api

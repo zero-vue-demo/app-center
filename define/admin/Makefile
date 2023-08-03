@@ -26,7 +26,8 @@ ts:
 
 .PHONY:doc
 doc:
-	goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/app/app.api --dir ../../app/admin/api/doc
+	@goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/app/app.api --dir ../../app/admin/api/doc
+	@cd ../../dev && sh doc admin-api-doc 7887 http://localhost:8887/doc/swagger && echo
 
 .PHONY:sql
 sql:

@@ -5,9 +5,10 @@ run:
 	@echo "make init  | 初始化项目"
 	@echo "-----------------------------------------"
 	@echo "make dev   | 初始化开发环境"
+	@echo "make new   | 生成服务初始化文件"
+	@echo "-----------------------------------------"
 	@echo "make all   | 列出所有后台程序"
 	@echo "make stop  | 关闭所有后台程序"
-	@echo "make doc   | 启动 api 文档容器"
 	@echo "-----------------------------------------"
 	@echo "make jwtx  | 后台运行 jwtx rpc 服务"
 	@echo "-----------------------------------------"
@@ -39,10 +40,9 @@ stop:
 jwtx:
 	cd dev && sh stop jwtx-rpc && sh start jwtx-rpc -f ./service/jwtx-rpc.yaml
 
-.PHONY:doc
-doc:
-	@cd dev && sh doc zero-vue-demo-admin-api-doc 7887 http://localhost:8887/doc/swagger
-	@cd dev && sh doc zero-vue-demo-user-api-doc 7888 http://localhost:8888/doc/swagger
+.PHONY:new
+new:
+	@goctl-ap service --app app --define define
 
 .PHONY:test
 test:
