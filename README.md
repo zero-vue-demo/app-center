@@ -8,6 +8,11 @@
 
 - 执行命令 `docker dev create -o --name zero-vue-demo-app-center git@github.com:zero-vue-demo/app-center.git` 构建开发环境
 - 在根目录下执行命令 `make init` 初始化项目
+- 在根目录下执行 `make doc` 启动 api 文档容器
+- 在根目录下执行 `make dev` 初始化开发环境
+- 运行基础权限服务
+  - 利用 vscode 插件创建数据库、导入数据结构 `dev/service/jwtx.sql`
+  - 在根目录下执行 `make jwtx` 后台运行 jwtx rpc 服务
 
 ## 开发流程
 
@@ -37,10 +42,7 @@
   - 配置文件路径 `app/admin/api/etc`
   - 逻辑文件路径 `app/admin/api/internal/logic`
 - 运行 api 服务
-  - 在根目录下执行 `make dev` 初始化开发环境
-  - 在根目录下执行 `make jwtx` 后台运行 jwtx rpc 服务
   - 在 `define/admin` 目录下执行 `make api-run` 运行 api 服务
-  - 在根目录下执行 `make doc` 启动 api 文档容器
 - 项目相关的通用代码
   - 目录 `common`
   - 仅供内部调用

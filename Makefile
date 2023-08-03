@@ -24,6 +24,7 @@ init:
 dev:
 	cd work/zero-auth/private/jwtx/rpc && go build jwtx.go && mv jwtx ../../../../../dev/service/jwtx-rpc
 	cp work/zero-auth/public/jwtx/deploy/jwtx-rpc.yaml dev/service/jwtx-rpc.yaml
+	cp work/zero-auth/public/jwtx/deploy/jwtx.sql dev/service/jwtx.sql
 
 .PHONY:all
 all:
