@@ -41,6 +41,7 @@ jwtx:
 
 .PHONY:doc
 doc:
+	@cd dev && sh doc zero-vue-demo-admin-api-doc 7887 http://localhost:8887/doc/swagger
 	@cd dev && sh doc zero-vue-demo-user-api-doc 7888 http://localhost:8888/doc/swagger
 
 .PHONY:test
