@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"app/user/db/dao/query"
+	"app/chatroom/db/dao/query"
 
 	"github.com/5-say/go-tools/tools/db"
 	"gorm.io/gorm"

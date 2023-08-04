@@ -1,7 +1,7 @@
 
 run:
 	@echo ""
-	@echo "this is [ user ] service"
+	@echo "this is [ chatroom ] service"
 	@echo ""
 	@echo "-----------------------------------------"
 	@echo "make tidy      |  更新 Golang 依赖"
@@ -26,8 +26,8 @@ ts:
 
 .PHONY:doc
 doc:
-	@goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/app/app.api --dir ../../app/user/api/doc
-	@cd ../../dev && sh doc user-api-doc 7888 http://localhost:8888/doc/swagger && echo
+	@goctl api plugin -p goctl-ap="swagger -f swagger.json" --api api/app/app.api --dir ../../app/chatroom/api/doc
+	@cd ../../dev && sh doc chatroom-api-doc 7889 http://localhost:8889/doc/swagger && echo
 
 .PHONY:sql
 sql:
@@ -35,13 +35,13 @@ sql:
 
 .PHONY:dao
 dao:
-	cd ../../app/user/db && go run db.go -f ../api/etc/user.yaml
+	cd ../../app/chatroom/db && go run db.go -f ../api/etc/chatroom.yaml
 
 .PHONY:api
 api:
-	goctl api go --api api/app/app.api --dir ../../app/user/api --style goZero \
+	goctl api go --api api/app/app.api --dir ../../app/chatroom/api --style goZero \
 	--remote https://github.com/5-say/go-zero-template --branch custom
 
 .PHONY:api-run
 api-run:
-	cd ../../app/user/api && go run user.go -f ./etc/user.yaml
+	cd ../../app/chatroom/api && go run chatroom.go -f ./etc/chatroom.yaml

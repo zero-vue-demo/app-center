@@ -3,15 +3,15 @@ import(
 )
 
 info (
-	title: "admin-api"
+	title: "chatroom-api"
 )
 
 @server (
 	group: api
-	swtags: admin-api
+	swtags: chatroom-api
 )
 
-service admin {
+service chatroom {
 	@handler nothing
 	get /
 

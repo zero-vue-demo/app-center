@@ -20,6 +20,8 @@ init:
 	sh shell/install-goctl.sh
 	sh shell/install-gopls.sh
 	sh shell/install-vscode-extension.sh
+	sh shell/go-work.sh
+	go install github.com/5-say/goctl-ap@latest
 
 .PHONY:dev
 dev:

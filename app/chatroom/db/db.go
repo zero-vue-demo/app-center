@@ -13,7 +13,7 @@ type Config struct {
 	DB db.Config
 }
 
-var configFile = flag.String("f", "../api/etc/api.yaml", "the config file")
+var configFile = flag.String("f", "../api/etc/chatroom.yaml", "the config file")
 
 // Dynamic SQL
 type Querier interface {

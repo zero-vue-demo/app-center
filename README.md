@@ -12,6 +12,7 @@
 - 在根目录下执行 `make dev` 初始化开发环境
 - 运行基础权限服务
   - 利用 vscode 插件创建数据库、导入数据结构 `dev/service/jwtx.sql`
+  - 编辑配置文件 `dev/service/jwtx-rpc.yaml`
   - 在根目录下执行 `make jwtx` 后台运行 jwtx rpc 服务
 
 ## 开发流程
@@ -22,7 +23,7 @@
 ### 服务创建
 
 - 初始化“*服务定义目录*”
-    - 在根目录下执行 `make new service=admin`
+    - 在根目录下执行 `make new` 生成服务初始化文件
 - 数据结构定义
   - 在 `define/admin/db/mysql` 目录下分别定义各表数据结构
   - 在 `define/admin` 目录下执行 `make sql` 合并 sql 文件

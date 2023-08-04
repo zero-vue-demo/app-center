@@ -1,0 +1,26 @@
+Name: chatroom.api
+Host: 0.0.0.0
+Port: 8889
+
+Log:
+  Encoding: plain
+  TimeFormat: "2006-01-02 15:04:05 MST -07"
+
+DB:
+  Host: mysql
+  Port: 3306
+  Name: chatroom_service
+  User: root
+  Password: root
+  LogLevel: 4
+  SlowThreshold: 1
+
+CorsOrigins:
+  - "http://localhost:7889"
+  - "https://localhost:7889"
+
+JWTXRpc:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: jwtx.rpc
