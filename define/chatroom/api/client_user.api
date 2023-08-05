@@ -1,0 +1,28 @@
+info(
+    description: "客户端 - 用户登录接口"
+)
+
+@server (
+    group: client/user
+    prefix: client/user
+    auth: jwt
+    middleware: AuthUserMiddleware
+)
+
+service chatroom {
+    @doc(
+        summary: 进入聊天室
+    )
+    @handler EnterRoom
+    get /rooms/:id(Client_User_EnterRoom_Request) returns (Client_User_EnterRoom_Response)
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 安全退出
+// - 请求
+type (
+    Client_User_EnterRoom_Request {}
+)
+// - 响应
+type (
+    Client_User_EnterRoom_Response {}
+)

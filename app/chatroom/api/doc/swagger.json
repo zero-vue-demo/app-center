@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "",
+    "title": "chatroom-api",
     "version": ""
   },
   "schemes": [
@@ -15,8 +15,184 @@
     "application/json"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "operationId": "nothing",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "tags": [
+          "chatroom-api"
+        ]
+      }
+    },
+    "/client/public/ws": {
+      "get": {
+        "summary": "WS",
+        "operationId": "ws",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "tags": [
+          "client/public"
+        ]
+      }
+    },
+    "/client/user/rooms/{id}": {
+      "get": {
+        "summary": "进入聊天室",
+        "operationId": "EnterRoom",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Client_User_EnterRoom_Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "client/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/demo/error": {
+      "post": {
+        "summary": "错误响应实例",
+        "operationId": "demoError",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DemoError_Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DemoError_Request"
+            }
+          }
+        ],
+        "tags": [
+          "chatroom-api"
+        ]
+      }
+    },
+    "/doc/swagger": {
+      "get": {
+        "summary": "文档",
+        "description": "获取 swagger 文档 json 文件",
+        "operationId": "swaggerDoc",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "tags": [
+          "chatroom-api"
+        ]
+      }
+    },
+    "/manager/admin/demo": {
+      "post": {
+        "summary": "Demo",
+        "operationId": "demo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Manager_Admin_Demo_Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Manager_Admin_Demo_Request"
+            }
+          }
+        ],
+        "tags": [
+          "manager/admin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
   },
   "definitions": {
+    "Client_User_EnterRoom_Request": {
+      "type": "object",
+      "title": "Client_User_EnterRoom_Request"
+    },
+    "Client_User_EnterRoom_Response": {
+      "type": "object",
+      "title": "Client_User_EnterRoom_Response"
+    },
+    "DemoError_Request": {
+      "type": "object",
+      "properties": {
+        "system_status_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "http_status_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "title": "DemoError_Request",
+      "required": [
+        "system_status_code",
+        "http_status_code",
+        "message"
+      ]
+    },
+    "DemoError_Response": {
+      "type": "object",
+      "title": "DemoError_Response"
+    },
+    "Manager_Admin_Demo_Request": {
+      "type": "object",
+      "title": "Manager_Admin_Demo_Request"
+    },
+    "Manager_Admin_Demo_Response": {
+      "type": "object",
+      "title": "Manager_Admin_Demo_Response"
+    }
   },
   "securityDefinitions": {
     "apiKey": {

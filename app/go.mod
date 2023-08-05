@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/5-say/go-tools v1.1.5
 	github.com/5-say/zero-auth v0.0.0-20230801101416-f4db2eeed17f
+	github.com/gorilla/websocket v1.5.0
 	github.com/zeromicro/go-zero v1.5.4
 	gorm.io/gen v0.3.23
 	gorm.io/gorm v1.25.2

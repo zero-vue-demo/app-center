@@ -1,5 +1,6 @@
 import(
 	"../platform/manager.api"
+	"../platform/client.api"
 )
 
 info (
@@ -14,13 +15,13 @@ info (
 service chatroom {
 	@handler nothing
 	get /
-
+	
 	@doc(
 		summary: "错误响应实例"
 	)
 	@handler demoError
 	post /demo/error(DemoError_Request) returns (DemoError_Response)
-
+	
 	@doc(
 		summary: "文档"
 		description: "获取 swagger 文档 json 文件"

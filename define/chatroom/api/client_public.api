@@ -1,0 +1,16 @@
+info(
+    description: "客户端 - 用户开放接口"
+)
+
+@server (
+    group: client/public
+    prefix: client/public
+)
+
+service chatroom {
+    @doc(
+        summary: WS
+    )
+    @handler ws
+    get /ws
+}
