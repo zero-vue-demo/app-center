@@ -20,7 +20,9 @@ service chatroom {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 安全退出
 // - 请求
 type (
-    Client_User_EnterRoom_Request {}
+    Client_User_EnterRoom_Request {
+        ID uint64 `path:"id"` // 聊天室 ID
+    }
 )
 // - 响应
 type (
